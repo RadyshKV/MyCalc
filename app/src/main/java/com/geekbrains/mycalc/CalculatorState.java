@@ -11,9 +11,9 @@ public class CalculatorState implements Parcelable {
     private char lastOperation; // последняя операция
 
     public CalculatorState() {
-        this.result = 0.0d;
-        this.operand = new StringBuilder("0");
-        this.lastOperation = noOperation;
+        result = 0.0d;
+        operand = new StringBuilder("0");
+        lastOperation = noOperation;
     }
 
     protected CalculatorState(Parcel in) {
@@ -63,66 +63,67 @@ public class CalculatorState implements Parcelable {
     }
 
     public void backspace() {
-        if (this.operand.length() > 1) {
-            this.operand.setLength(this.operand.length() - 1);
+        if (operand.length() > 1) {
+            operand.setLength(operand.length() - 1);
         } else {
-            this.operand.setLength(0);
-            this.operand.append(0);
+            operand.setLength(0);
+            operand.append(0);
         }
     }
 
     public void setPoint() {
-        if (this.operand.length() > 0 && this.operand.lastIndexOf(".") == -1) {
-            this.operand.append(".");
+        if (operand.length() > 0 && operand.lastIndexOf(".") == -1) {
+            operand.append(".");
         }
     }
 
     public void setNumber(int number) {
-        this.operand = this.operand.append(number);
-        if (this.operand.charAt(0) == '0' && this.operand.charAt(1) != '.') {
-            this.operand.deleteCharAt(0);
+        operand = operand.append(number);
+        if (operand.charAt(0) == '0' && operand.charAt(1) != '.') {
+            operand.deleteCharAt(0);
         }
     }
 
     public void setNegative() {
-        if (this.operand.charAt(0) == '-') {
-            this.operand.deleteCharAt(0);
+        if (operand.charAt(0) == '-') {
+            operand.deleteCharAt(0);
         } else {
-            this.operand.insert(0, '-');
+            operand.insert(0, '-');
         }
     }
 
 
     public void setEqualsOperation() {
 
+        double curValue = Double.parseDouble(operand.toString());
         switch (lastOperation) {
             case percentOperation:
-                result = Double.parseDouble(this.operand.toString()) / 100 * result;
+                result = curValue / 100 * result;
                 break;
             case sumOperation:
-                result += Double.parseDouble(this.operand.toString());
+                result += curValue;
                 break;
             case subOperation:
-                result -= Double.parseDouble(this.operand.toString());
+                result -= curValue;
                 break;
             case multOperation:
-                result *= Double.parseDouble(this.operand.toString());
+                result *= curValue;
                 break;
             case divOperation:
-                result /= Double.parseDouble(this.operand.toString());
+                result /= curValue;
                 break;
             case noOperation:
-                result = Double.parseDouble(this.operand.toString());
+                result = curValue;
                 break;
         }
         operand.setLength(0);
         operand.append(result);
-        this.lastOperation = equalsOperation;
+        lastOperation = equalsOperation;
     }
 
     public void setOperation(char operation) {
-        this.lastOperation = operation;
-        result = Double.parseDouble(this.operand.toString());
+        lastOperation = operation;
+        result = Double.parseDouble(operand.toString());
         operand.setLength(0);
         operand.append(0);
 
@@ -142,5 +143,9 @@ public class CalculatorState implements Parcelable {
             dest.writeDouble(result);
         }
         dest.writeInt((int) lastOperation);
+    }
+
+    public boolean lastOperationIsEquals() {
+        return lastOperation == equalsOperation;
     }
 }
