@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+<style name="NumButtonStyle">
+    <item name="android:minWidth">@dimen/button_minWidth</item>
+    <item name="android:textSize">@dimen/button_text</item>
+    <item name="android:textColor">@color/purple_500</item>
+</style>
+    <style name="OperationButtonStyle" parent="NumButtonStyle">
+        <item name="android:textColor">@color/orange</item>
+    </style>
+    <style name="ResultViewStyle">
+        <item name="android:gravity">end|bottom</item>
+        <item name="android:textColor">@color/teal_200</item>
+        <item name="android:textSize">@dimen/result_text</item>
+    </style>
+
+</resources>
