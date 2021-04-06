@@ -1,17 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-<style name="NumButtonStyle">
-    <item name="android:minWidth">@dimen/button_minWidth</item>
-    <item name="android:textSize">@dimen/button_text</item>
-    <item name="android:textColor">@color/purple_500</item>
-</style>
-    <style name="OperationButtonStyle" parent="NumButtonStyle">
-        <item name="android:textColor">@color/orange</item>
+    <style name="numericButtonStyle">
+        <item name="android:minWidth">@dimen/button_minWidth</item>
+        <item name="android:textSize">@dimen/button_text</item>
+        <item name="android:backgroundTint">#7E57C2</item>
+        <item name="android:minHeight">@dimen/button_minHeight</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
-    <style name="ResultViewStyle">
+    <style name="operationButtonStyle" parent="numericButtonStyle">
+        <item name="android:backgroundTint">#FFA726</item>
+    </style>
+    <style name="auxiliaryButtonStyle" parent="numericButtonStyle">
+        <item name="android:backgroundTint">#EF5350</item>
+    </style>
+    <style name="resultViewStyle">
+        <item name="android:layout_marginVertical" tools:targetApi="o">@dimen/margin_vertical</item>
         <item name="android:gravity">end|bottom</item>
-        <item name="android:textColor">@color/teal_200</item>
         <item name="android:textSize">@dimen/result_text</item>
+    </style>
+    <style name="radioButtonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/marginRadioBtn</item>
+        <item name="android:textSize">@dimen/themesTextSize</item>
+
+
+    </style>
+    <style name="applyButtonStyle" parent="numericButtonStyle">
+        <item name="android:layout_marginTop">@dimen/marginRadioBtn</item>
     </style>
 
 </resources>

@@ -3,7 +3,11 @@
     <dimen name="button_text">20sp</dimen>
     <dimen name="result_text">50sp</dimen>
     <dimen name="button_minWidth">65dp</dimen>
+    <dimen name="button_minHeight">55dp</dimen>
     <dimen name="margin_vertical">20dp</dimen>
     <dimen name="margin_horizontal">20dp</dimen>
     <dimen name="margin_button">10dp</dimen>
+    <dimen name="marginThemesTitle">40dp</dimen>
+    <dimen name="themesTextSize">50sp</dimen>
+    <dimen name="marginRadioBtn">20dp</dimen>
 </resources>

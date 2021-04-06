@@ -13,11 +13,18 @@
     <string name="_point">.</string>
     <string name="_sum">+</string>
     <string name="_sub">-</string>
-    <string name="_mult">*</string>
-    <string name="_div">/</string>
+    <string name="_mult">×</string>
+    <string name="_div">÷</string>
     <string name="_equals">=</string>
-    <string name="_negative">+-</string>
+    <string name="_negative">±</string>
     <string name="_percent">%</string>
     <string name="_c">C</string>
-    <string name="_back">b</string>
+    <string name="_back">⌫</string>
+    <string name="themes">Themes</string>
+    <string name="theme">Theme</string>
+    <string name="dark">Dark</string>
+    <string name="light">Light</string>
+    <string name="sky">Sky</string>
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
 </resources>
