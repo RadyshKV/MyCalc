@@ -1,34 +1,30 @@
 package com.geekbrains.mycalc;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.TextView;
+
+import static com.geekbrains.mycalc.Constants.*;
 
 public class MainActivity extends AppCompatActivity {
     private TextView resultView;
-    public static final char percentOperation = '%';
-    public static final char sumOperation = '+';
-    public static final char subOperation = '-';
-    public static final char multOperation = '*';
-    public static final char divOperation = '/';
-    public static final char equalsOperation = '=';
-    public static final char noOperation = 'n';
-    private final String calculatorStateKey = "calculatorStateKey";
     private CalculatorState calculatorState = new CalculatorState();
     private final int[] numberButtonIds = new int[]{R.id.button_0, R.id.button_1, R.id.button_2, R.id.button_3, R.id.button_4, R.id.button_5, R.id.button_6, R.id.button_7, R.id.button_8, R.id.button_9};
-
+    private int currentCodeTheme;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(getAppTheme(skyTheme));
         setContentView(R.layout.activity_main);
         initViews();
         setOnButtonsClickListener();
-
     }
+
 
     private void initViews() {
         resultView = findViewById(R.id.resultView);
@@ -37,64 +33,27 @@ public class MainActivity extends AppCompatActivity {
     private void setNumberButtonListeners() {
         for (int i = 0; i < numberButtonIds.length; i++) {
             int index = i;
-            findViewById(numberButtonIds[i]).setOnClickListener(v -> onNumberClick(index));
+            findViewById(numberButtonIds[i]).setOnClickListener(v -> resultView.setText(calculatorState.setNumber(index)));
         }
     }
 
     private void setOnButtonsClickListener() {
         setNumberButtonListeners();
-        findViewById(R.id.button_clear).setOnClickListener(v -> onClearClick());
-        findViewById(R.id.button_back).setOnClickListener(v -> onBackClick());
-        findViewById(R.id.button_percent).setOnClickListener(v -> onOperationClick(percentOperation));
-        findViewById(R.id.button_point).setOnClickListener(v -> onPointClick());
-        findViewById(R.id.button_sum).setOnClickListener(v -> onOperationClick(sumOperation));
-        findViewById(R.id.button_sub).setOnClickListener(v -> onOperationClick(subOperation));
-        findViewById(R.id.button_mult).setOnClickListener(v -> onOperationClick(multOperation));
-        findViewById(R.id.button_div).setOnClickListener(v -> onOperationClick(divOperation));
-        findViewById(R.id.button_negative).setOnClickListener(v -> onNegativeClick());
-        findViewById(R.id.button_equals).setOnClickListener(v -> onOperationClick(equalsOperation));
-    }
-
-
-    private void onNumberClick(int number) {
-        calculatorState.setNumber(number);
-        resultView.setText(calculatorState.getOperand());
-    }
-
-    private void onOperationClick(char operation) {
-        if (operation == equalsOperation) {
-            calculatorState.setEqualsOperation();
-            resultView.setText(calculatorState.getOperand());
-        } else {
-            calculatorState.setOperation(operation);
-        }
-    }
-
-
-    private void onPointClick() {
-        if (!calculatorState.lastOperationIsEquals()) {
-            calculatorState.setPoint();
-            resultView.setText(calculatorState.getOperand());
-        }
-    }
-
-    private void onBackClick() {
-        if (!calculatorState.lastOperationIsEquals()) {
-            calculatorState.backspace();
-            resultView.setText(calculatorState.getOperand());
-        }
-    }
-
-    private void onClearClick() {
-        calculatorState.setLastOperation(noOperation);
-        calculatorState.setOperand("0");
-        calculatorState.setResult(0.0d);
-        resultView.setText(calculatorState.getOperand());
-    }
-
-    private void onNegativeClick() {
-        calculatorState.setNegative();
-        resultView.setText(calculatorState.getOperand());
+        findViewById(R.id.button_clear).setOnClickListener(v -> resultView.setText(calculatorState.clear()));
+        findViewById(R.id.button_back).setOnClickListener(v -> resultView.setText(calculatorState.backspace()));
+        findViewById(R.id.button_percent).setOnClickListener(v -> resultView.setText(calculatorState.setOperation(PERCENT)));
+        findViewById(R.id.button_point).setOnClickListener(v -> resultView.setText(calculatorState.setPoint()));
+        findViewById(R.id.button_sum).setOnClickListener(v -> resultView.setText(calculatorState.setOperation(SUMMATION)));
+        findViewById(R.id.button_sub).setOnClickListener(v -> resultView.setText(calculatorState.setOperation(SUBTRACTION)));
+        findViewById(R.id.button_mult).setOnClickListener(v -> resultView.setText(calculatorState.setOperation(MULTIPLICATION)));
+        findViewById(R.id.button_div).setOnClickListener(v -> resultView.setText(calculatorState.setOperation(DIVISION)));
+        findViewById(R.id.button_negative).setOnClickListener(v -> resultView.setText(calculatorState.setNegative()));
+        findViewById(R.id.button_equals).setOnClickListener(v -> resultView.setText(calculatorState.calculate()));
+        findViewById(R.id.button_selectTheme).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ChangeThemeActivity.class);
+            intent.putExtra(mainActivityDataKey, currentCodeTheme);
+            startActivityForResult(intent, changeThemeActivityRequestCode);
+        });
     }
 
     @Override
@@ -107,6 +66,45 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         calculatorState = savedInstanceState.getParcelable(calculatorStateKey);
-        resultView.setText(calculatorState.getOperand());
+        resultView.setText(calculatorState.getResult());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == changeThemeActivityRequestCode && resultCode == RESULT_OK && data != null) {
+            int codeTheme = data.getIntExtra(changeThemeActivityDataKey, skyTheme);
+            setAppTheme(codeTheme);
+            recreate();
+        }
+    }
+
+    private int getAppTheme(int codeTheme) {
+        return codeThemeToThemeId(getCodeTheme(codeTheme));
+    }
+
+    private int getCodeTheme(int codeTheme) {
+        SharedPreferences sharedPref = getSharedPreferences(NameSharedPreference, MODE_PRIVATE);
+        currentCodeTheme = sharedPref.getInt(appTheme, codeTheme);
+        return currentCodeTheme;
+    }
+
+    private int codeThemeToThemeId(int codeTheme) {
+        switch (codeTheme) {
+            case darkTheme:
+                return R.style.Theme_MyCalc_Dark;
+            case lightTheme:
+                return R.style.Theme_MyCalc_Light;
+            case skyTheme:
+            default:
+                return R.style.Theme_MyCalc_Sky;
+        }
+    }
+
+    private void setAppTheme(int codeTheme) {
+        SharedPreferences sharedPref = getSharedPreferences(NameSharedPreference, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(appTheme, codeTheme);
+        editor.apply();
     }
 }

@@ -3,226 +3,193 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/sky_night_star">
+    android:layout_height="match_parent">
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_selectTheme"
+        style="@style/numericButtonStyle"
+        android:layout_marginStart="@dimen/margin_horizontal"
+        android:text="@string/theme"
+        app:layout_constraintTop_toTopOf="@id/button_clear"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/resultView"
-        style="@style/ResultViewStyle"
+        style="@style/resultViewStyle"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="@dimen/margin_horizontal"
-        android:text="@string/_0"
         app:layout_constraintBottom_toBottomOf="@id/button_negative"
         app:layout_constraintEnd_toStartOf="@id/button_clear"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/button_clear" />
+        app:layout_constraintTop_toBottomOf="@id/button_selectTheme"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="@string/_0" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_clear"
-        style="@style/OperationButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_button"
+        style="@style/auxiliaryButtonStyle"
         android:text="@string/_c"
+        android:layout_marginHorizontal="@dimen/margin_button"
         app:layout_constraintBottom_toTopOf="@id/button_7"
         app:layout_constraintEnd_toStartOf="@id/button_back" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_back"
-        style="@style/OperationButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_button"
+        style="@style/auxiliaryButtonStyle"
         android:text="@string/_back"
+        android:layout_marginHorizontal="@dimen/margin_button"
         app:layout_constraintBottom_toTopOf="@id/button_8"
         app:layout_constraintEnd_toStartOf="@id/button_percent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_percent"
-        style="@style/OperationButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_button"
+        style="@style/operationButtonStyle"
         android:text="@string/_percent"
+        android:layout_marginHorizontal="@dimen/margin_button"
         app:layout_constraintBottom_toTopOf="@id/button_9"
         app:layout_constraintEnd_toStartOf="@id/button_div" />
 
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_div"
-        style="@style/OperationButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_horizontal"
+        style="@style/operationButtonStyle"
         android:text="@string/_div"
+        android:layout_marginHorizontal="@dimen/margin_horizontal"
         app:layout_constraintBottom_toTopOf="@id/button_mult"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_7"
-        style="@style/NumButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_button"
+        style="@style/numericButtonStyle"
         android:text="@string/_7"
+        android:layout_marginHorizontal="@dimen/margin_button"
         app:layout_constraintBottom_toTopOf="@id/button_4"
         app:layout_constraintEnd_toStartOf="@id/button_8" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_8"
-        style="@style/NumButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_button"
+        style="@style/numericButtonStyle"
         android:text="@string/_8"
+        android:layout_marginHorizontal="@dimen/margin_button"
         app:layout_constraintBottom_toTopOf="@id/button_5"
         app:layout_constraintEnd_toStartOf="@id/button_9" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_9"
-        style="@style/NumButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_button"
+        style="@style/numericButtonStyle"
         android:text="@string/_9"
+        android:layout_marginHorizontal="@dimen/margin_button"
         app:layout_constraintBottom_toTopOf="@id/button_6"
         app:layout_constraintEnd_toStartOf="@id/button_mult" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_mult"
-        style="@style/OperationButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_horizontal"
+        style="@style/operationButtonStyle"
         android:text="@string/_mult"
+        android:layout_marginHorizontal="@dimen/margin_horizontal"
         app:layout_constraintBottom_toTopOf="@id/button_sub"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_4"
-        style="@style/NumButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_button"
+        style="@style/numericButtonStyle"
         android:text="@string/_4"
+        android:layout_marginHorizontal="@dimen/margin_button"
         app:layout_constraintBottom_toTopOf="@id/button_1"
         app:layout_constraintEnd_toStartOf="@id/button_5" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_5"
-        style="@style/NumButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_button"
+        style="@style/numericButtonStyle"
         android:text="@string/_5"
+        android:layout_marginHorizontal="@dimen/margin_button"
         app:layout_constraintBottom_toTopOf="@id/button_2"
         app:layout_constraintEnd_toStartOf="@id/button_6" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_6"
-        style="@style/NumButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_button"
+        style="@style/numericButtonStyle"
         android:text="@string/_6"
+        android:layout_marginHorizontal="@dimen/margin_button"
         app:layout_constraintBottom_toTopOf="@id/button_3"
         app:layout_constraintEnd_toStartOf="@id/button_sub" />
 
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_sub"
-        style="@style/OperationButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_horizontal"
+        style="@style/operationButtonStyle"
         android:text="@string/_sub"
+        android:layout_marginHorizontal="@dimen/margin_horizontal"
         app:layout_constraintBottom_toTopOf="@id/button_sum"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_1"
-        style="@style/NumButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_button"
+        style="@style/numericButtonStyle"
         android:text="@string/_1"
+        android:layout_marginHorizontal="@dimen/margin_button"
         app:layout_constraintBottom_toTopOf="@id/button_0"
         app:layout_constraintEnd_toStartOf="@id/button_2" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_2"
-        style="@style/NumButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_button"
+        style="@style/numericButtonStyle"
         android:text="@string/_2"
+        android:layout_marginHorizontal="@dimen/margin_button"
         app:layout_constraintBottom_toTopOf="@id/button_0"
         app:layout_constraintEnd_toStartOf="@id/button_3" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_3"
-        style="@style/NumButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_button"
+        style="@style/numericButtonStyle"
         android:text="@string/_3"
+        android:layout_marginHorizontal="@dimen/margin_button"
         app:layout_constraintBottom_toTopOf="@id/button_point"
         app:layout_constraintEnd_toStartOf="@id/button_sum" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_sum"
-        style="@style/OperationButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_horizontal"
+        style="@style/operationButtonStyle"
         android:text="@string/_sum"
+        android:layout_marginHorizontal="@dimen/margin_horizontal"
         app:layout_constraintBottom_toTopOf="@id/button_equals"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_negative"
-        style="@style/OperationButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_button"
         android:layout_marginVertical="@dimen/margin_vertical"
+        style="@style/numericButtonStyle"
         android:text="@string/_negative"
+        android:layout_marginHorizontal="@dimen/margin_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/button_0" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_0"
-        style="@style/NumButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_button"
         android:layout_marginVertical="@dimen/margin_vertical"
+        style="@style/numericButtonStyle"
         android:text="@string/_0"
+        android:layout_marginHorizontal="@dimen/margin_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/button_point" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_point"
-        style="@style/NumButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_button"
         android:layout_marginVertical="@dimen/margin_vertical"
+        style="@style/numericButtonStyle"
         android:text="@string/_point"
+        android:layout_marginHorizontal="@dimen/margin_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/button_equals" />
 
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_equals"
-        style="@style/OperationButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_horizontal"
         android:layout_marginVertical="@dimen/margin_vertical"
+        style="@style/operationButtonStyle"
         android:text="@string/_equals"
+        android:layout_marginHorizontal="@dimen/margin_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

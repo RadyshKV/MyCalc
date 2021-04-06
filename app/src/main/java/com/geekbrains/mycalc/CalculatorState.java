@@ -3,26 +3,37 @@ package com.geekbrains.mycalc;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import static com.geekbrains.mycalc.MainActivity.*;
+import static com.geekbrains.mycalc.Constants.*;
 
 public class CalculatorState implements Parcelable {
-    private Double result;   // результат вычислений
-    private StringBuilder operand;  // операнд
+    private String firstOperand;   // первый операнд
+    private String secondOperand;  // второй операнд
     private char lastOperation; // последняя операция
 
     public CalculatorState() {
-        result = 0.0d;
-        operand = new StringBuilder("0");
-        lastOperation = noOperation;
+
+        firstOperand = "";
+        secondOperand = "";
+        lastOperation = EMPTY;
     }
 
+
     protected CalculatorState(Parcel in) {
-        if (in.readByte() == 0) {
-            result = null;
-        } else {
-            result = in.readDouble();
-        }
+        firstOperand = in.readString();
+        secondOperand = in.readString();
         lastOperation = (char) in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(firstOperand);
+        dest.writeString(secondOperand);
+        dest.writeInt((int) lastOperation);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<CalculatorState> CREATOR = new Creator<CalculatorState>() {
@@ -37,115 +48,118 @@ public class CalculatorState implements Parcelable {
         }
     };
 
-    public Double getResult() {
-        return result;
+    public String clear() {
+        lastOperation = EMPTY;
+        secondOperand = "";
+        firstOperand = "";
+        return getResult();
     }
 
-    public String getOperand() {
-        return operand.toString();
-    }
-
-    public char getLastOperation() {
-        return lastOperation;
-    }
-
-    public void setResult(Double result) {
-        this.result = result;
-    }
-
-    public void setOperand(String operand) {
-        this.operand.setLength(0);
-        this.operand.append(operand);
-    }
-
-    public void setLastOperation(char lastOperation) {
-        this.lastOperation = lastOperation;
-    }
-
-    public void backspace() {
-        if (operand.length() > 1) {
-            operand.setLength(operand.length() - 1);
+    public String backspace() {
+        if (!secondOperand.isEmpty()) {
+            secondOperand = secondOperand.substring(0, secondOperand.length() - 1);
         } else {
-            operand.setLength(0);
-            operand.append(0);
+            lastOperation = EMPTY;
         }
+        return getResult();
     }
 
-    public void setPoint() {
-        if (operand.length() > 0 && operand.lastIndexOf(".") == -1) {
-            operand.append(".");
+    public String setPoint() {
+        if (lastOperation == EMPTY) {
+            firstOperand = "";
         }
+        if (secondOperand.lastIndexOf(".") == -1) {
+            if (secondOperand.isEmpty()) {
+                secondOperand += "0";
+            }
+            secondOperand += ".";
+        }
+        return getResult();
     }
 
-    public void setNumber(int number) {
-        operand = operand.append(number);
-        if (operand.charAt(0) == '0' && operand.charAt(1) != '.') {
-            operand.deleteCharAt(0);
+    public String setNumber(int number) {
+        if (lastOperation == EMPTY) {
+            firstOperand = "";
         }
-    }
-
-    public void setNegative() {
-        if (operand.charAt(0) == '-') {
-            operand.deleteCharAt(0);
+        if (secondOperand.equals("0")) {
+            secondOperand = String.format("%s", number);
         } else {
-            operand.insert(0, '-');
+            secondOperand += number;
         }
+        return getResult();
+    }
+
+    public String setNegative() {
+        if (!secondOperand.isEmpty() && !secondOperand.equals("0")) {
+            if (secondOperand.startsWith("-")) {
+                secondOperand = secondOperand.replace("-", "");
+            } else {
+                secondOperand = "-" + secondOperand;
+            }
+        }
+        return getResult();
     }
 
 
-    public void setEqualsOperation() {
+    public String calculate() {
+        double firstNumber;
+        double secondNumber;
 
-        double curValue = Double.parseDouble(operand.toString());
+        if (firstOperand.isEmpty()) {
+            firstNumber = 0.0d;
+        } else {
+            firstNumber = Double.parseDouble(firstOperand);
+        }
+
+        if (secondOperand.isEmpty()) {
+            secondNumber = firstNumber;
+        } else {
+            secondNumber = Double.parseDouble(secondOperand);
+        }
+
         switch (lastOperation) {
-            case percentOperation:
-                result = curValue / 100 * result;
+            case PERCENT:
+                firstNumber = secondNumber / 100 * firstNumber;
                 break;
-            case sumOperation:
-                result += curValue;
+            case SUMMATION:
+                firstNumber += secondNumber;
                 break;
-            case subOperation:
-                result -= curValue;
+            case SUBTRACTION:
+                firstNumber -= secondNumber;
                 break;
-            case multOperation:
-                result *= curValue;
+            case MULTIPLICATION:
+                firstNumber *= secondNumber;
                 break;
-            case divOperation:
-                result /= curValue;
+            case DIVISION:
+                firstNumber /= secondNumber;
                 break;
-            case noOperation:
-                result = curValue;
+            case EMPTY:
+                firstNumber = secondNumber;
                 break;
         }
-        operand.setLength(0);
-        operand.append(result);
-        lastOperation = equalsOperation;
+        firstOperand = "";
+        firstOperand += firstNumber;
+        secondOperand = "";
+        lastOperation = EMPTY;
+
+        return getResult();
     }
 
-    public void setOperation(char operation) {
-        lastOperation = operation;
-        result = Double.parseDouble(operand.toString());
-        operand.setLength(0);
-        operand.append(0);
-
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (result == null) {
-            dest.writeByte((byte) 0);
+    public String setOperation(char operation) {
+        if (firstOperand.isEmpty()) {
+            firstOperand = secondOperand;
+            secondOperand = "";
         } else {
-            dest.writeByte((byte) 1);
-            dest.writeDouble(result);
+            calculate();
         }
-        dest.writeInt((int) lastOperation);
+        lastOperation = operation;
+        return getResult();
     }
 
-    public boolean lastOperationIsEquals() {
-        return lastOperation == equalsOperation;
+
+    public String getResult() {
+        return firstOperand + lastOperation + secondOperand;
     }
+
+
 }
